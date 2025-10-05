@@ -7,7 +7,7 @@ BINARY_NAME=docgen
 LDFLAGS=-ldflags="-s -w"
 
 # Default target
-all: build
+all: build-versioned
 
 # Build the binary
 build:
@@ -17,12 +17,28 @@ build:
 	@echo "Built $(BINARY_NAME) successfully!"
 	@ls -lh $(BINARY_NAME)
 
+# Build with version metadata
+build-versioned:
+	@VERSION=$$(git describe --tags --abbrev=0 2>/dev/null || echo "dev"); \
+	COMMIT=$$(git rev-parse HEAD); \
+	DATE=$$(date -u +%Y-%m-%dT%H:%M:%SZ); \
+	echo "VERSION=$$VERSION"; \
+	echo "Building $(BINARY_NAME) with version $$VERSION..."; \
+	go fmt $(BINARY_NAME).go; \
+	go build -ldflags="-s -w \
+		-X main.version=$$VERSION \
+		-X main.commit=$$COMMIT \
+		-X main.date=$$DATE" \
+		-o $(BINARY_NAME) .
+	@echo "Built $(BINARY_NAME) successfully!"
+	@ls -lh $(BINARY_NAME)
+
 # Build and run
 run: build
 	./$(BINARY_NAME)
 
 # Install to /usr/local/bin (requires sudo on most systems)
-install: build
+install: build-versioned
 	@echo "Installing $(BINARY_NAME) to /usr/local/bin..."
 	sudo cp $(BINARY_NAME) /usr/local/bin/
 	@echo "$(BINARY_NAME) installed successfully!"
@@ -52,11 +68,8 @@ cross-compile:
 
 # Create and push a new annotated tag, then run GoReleaser locally
 release:
-	@echo "Enter version (e.g., v0.1.1):"; \
-	read VERSION; \
-	git tag -a $$VERSION -m "Release $$VERSION"; \
-	git push origin $$VERSION; \
-	@echo "Running GoReleaser for $$VERSION..."; \
+	@VERSION=$$(git describe --tags --abbrev=0); \
+	echo "Running GoReleaser for $$VERSION..."; \
 	GORELEASER_CURRENT_TAG=$$VERSION goreleaser release --clean
 
 release-dry:
@@ -67,6 +80,7 @@ release-dry:
 help:
 	@echo "Available targets:"
 	@echo "  make build          - Build the binary (default)"
+	@echo "  make build-versioned - Build with version, commit, and date metadata"
 	@echo "  make run            - Build and run the program"
 	@echo "  make install        - Install to /usr/local/bin (requires sudo)"
 	@echo "  make uninstall      - Remove from /usr/local/bin (requires sudo)"

@@ -33,18 +33,24 @@ var (
 	}
 )
 
-var version = "dev" // overridden at build time via -ldflags
-
 type Config struct {
 	AlwaysInclude []string
 	AlsoExclude   []string
 }
 
+var (
+	version = "dev"
+	commit  = ""
+	date    = ""
+)
+
 func main() {
 	flag.Parse()
 
 	if *showVersion {
-		fmt.Println("docgen version", version)
+		fmt.Printf("docgen version %s\n", version)
+		fmt.Printf("commit: %s\n", commit)
+		fmt.Printf("built:  %s\n", date)
 		return
 	}
 
