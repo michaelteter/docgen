@@ -1,5 +1,7 @@
 # docgen
 
+**_docgen - your entire project in one text file_**
+
 A fast, intelligent project documentation generator that creates a single, comprehensive text file containing your entire project structure and source code. Perfect for sharing context with LLMs - just drop one file in an AI chat and discuss your entire project.
 
 Recommended: add `docgen` to your git pre-commit process.
