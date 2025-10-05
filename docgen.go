@@ -23,22 +23,10 @@ var (
     // Default values if .docgen_ignore doesn't exist
     defaultAlwaysInclude = []string{
         ".gitignore",
-        "Makefile",
-        "requirements.txt",
     }
     defaultAlsoExclude = []string{
         ".git/",
         ".DS_Store",
-        "__pycache__/",
-        "node_modules/",
-        "project_doc.txt",
-        "docgen",
-        "*.pyc",
-        "*.log",
-        "*.tmp",
-        "*.swp",
-        "*.bak",
-        "*.out",
     }
 )
 
@@ -71,7 +59,7 @@ func main() {
         buf.WriteString(fmt.Sprintf(">>>> PROJECT FILE TREE: %s\n", strings.Repeat(">", 80-25)))
         buf.WriteString(".\n")
         buf.WriteString(treeString(included, true))
-        buf.WriteString(fmt.Sprintf("\n<<<< END OF FILE TREE: %s\n", strings.Repeat(">", 80-24)))
+        buf.WriteString(fmt.Sprintf("\n<<<< END OF FILE TREE: %s\n", strings.Repeat("<", 80-24)))
         buf.WriteString("\n")
         for _, f := range included {
             content, err := os.ReadFile(f)
