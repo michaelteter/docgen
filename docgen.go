@@ -1,5 +1,3 @@
-// go build -o docgen main.go
-
 package main
 
 import (
@@ -19,7 +17,7 @@ var (
     filesList    = flag.Bool("files-list", false, "Print included files only")
     graphicTree  = flag.Bool("graphic-tree", false, "Print symbol-formatted tree")
     plainTree    = flag.Bool("plain-tree", false, "Print space-indented tree")
-    outputPath   = flag.String("output", "docs/project_doc.txt", "Path to write full documentation output")
+    outputPath   = flag.String("output", "project_doc.txt", "Path to write full documentation output")
     maxSizeBytes = int64(2 * 1024 * 1024) // 2MB
 
     // Default values if .docgen_ignore doesn't exist
@@ -33,6 +31,7 @@ var (
         ".DS_Store",
         "__pycache__/",
         "node_modules/",
+        "project_doc.txt",
         "*.pyc",
         "*.log",
         "*.tmp",
