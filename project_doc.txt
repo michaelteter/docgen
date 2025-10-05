@@ -527,6 +527,12 @@ We recommend committing the generated file to git because:
 
 The pragma comment prevents recursive inclusion if you regenerate while an old version exists.
 
+## Future/TODO
+
+- Review Golang code, as it was 99% AI-generated.
+- Add tests, particularly for isBinaryFile, matchesGitignorePattern, and other critical functions.
+- Ensure that path building/handling is correct and cross-platform.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit issues or pull requests.
