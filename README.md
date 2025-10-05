@@ -187,9 +187,7 @@ The pragma comment prevents recursive inclusion if you regenerate while an old v
 
 ## Future/TODO
 
-- Review Golang code, as it was 99% AI-generated.
-- Add tests, particularly for isBinaryFile, matchesGitignorePattern, and other critical functions.
-- Ensure that path building/handling is correct and cross-platform.
+See [FUTURE.md](FUTURE.md)
 
 ## Contributing
 
