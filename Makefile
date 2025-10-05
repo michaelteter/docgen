@@ -12,6 +12,7 @@ all: build
 # Build the binary
 build:
 	@echo "Building $(BINARY_NAME)..."
+	go fmt $(BINARY_NAME).go
 	go build $(LDFLAGS) -o $(BINARY_NAME) .
 	@echo "Built $(BINARY_NAME) successfully!"
 	@ls -lh $(BINARY_NAME)
@@ -51,20 +52,16 @@ cross-compile:
 
 # Create and push a new annotated tag, then run GoReleaser locally
 release:
-    @echo "Enter version (e.g., v0.1.1):"; \
-    read VERSION; \
-    git tag -a $$VERSION -m "Release $$VERSION"; \
-    git push origin $$VERSION; \
-    @echo "Running GoReleaser for $$VERSION..."; \
-    GORELEASER_CURRENT_TAG=$$VERSION goreleaser release --clean
+	@echo "Enter version (e.g., v0.1.1):"; \
+	read VERSION; \
+	git tag -a $$VERSION -m "Release $$VERSION"; \
+	git push origin $$VERSION; \
+	@echo "Running GoReleaser for $$VERSION..."; \
+	GORELEASER_CURRENT_TAG=$$VERSION goreleaser release --clean
 
 release-dry:
-    @echo "Running GoReleaser dry run..."
-    goreleaser release --clean --skip-publish --snapshot
-
-# Run tests (if you add tests later)
-test:
-	go test -v ./...
+	@echo "Running GoReleaser dry run..."
+	goreleaser release --clean --skip-publish --snapshot
 
 # Show help
 help:
@@ -75,7 +72,6 @@ help:
 	@echo "  make uninstall      - Remove from /usr/local/bin (requires sudo)"
 	@echo "  make clean          - Remove build artifacts"
 	@echo "  make cross-compile  - Build for Linux, macOS, and Windows"
-	@echo "  make test           - Run tests"
 	@echo "  make help           - Show this help message"
 	@echo "  make release        - Tag and release with GoReleaser"
 	@echo "  make release-dry    - Dry run GoReleaser without publishing"
