@@ -14,6 +14,7 @@ import (
 )
 
 var (
+		showVersion  = flag.Bool("version", false, "Show version and exit")
     filesList    = flag.Bool("files-list", false, "Print included files only")
     graphicTree  = flag.Bool("graphic-tree", false, "Print symbol-formatted tree")
     plainTree    = flag.Bool("plain-tree", false, "Print space-indented tree")
@@ -30,6 +31,8 @@ var (
     }
 )
 
+var version = "dev" // overridden at build time via -ldflags
+
 type Config struct {
     AlwaysInclude []string
     AlsoExclude   []string
@@ -37,6 +40,13 @@ type Config struct {
 
 func main() {
     flag.Parse()
+
+
+    if *showVersion {
+        fmt.Println("docgen version", version)
+        return
+    }
+
     root := "."
 
     config := loadConfig()
